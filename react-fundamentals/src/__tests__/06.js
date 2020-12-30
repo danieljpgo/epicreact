@@ -1,11 +1,11 @@
 import * as React from 'react'
-import {render, screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import App from '../final/06'
-// import App from '../exercise/06'
+// import App from '../final/06'
+import App from '../exercise/06'
 
 beforeAll(() => {
-  jest.spyOn(global, 'alert').mockImplementation(() => {})
+  jest.spyOn(global, 'alert').mockImplementation(() => { })
 })
 
 beforeEach(() => {
