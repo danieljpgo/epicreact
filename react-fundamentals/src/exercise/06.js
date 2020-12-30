@@ -5,7 +5,6 @@ import * as React from 'react'
 
 function UsernameForm({ onSubmitUsername }) {
   const [username, setUsername] = React.useState('');
-  const inputRef = React.useRef(null);
 
   function handleSubmit(event, value) {
     event.preventDefault();
@@ -17,14 +16,12 @@ function UsernameForm({ onSubmitUsername }) {
   }
 
   return (
-    <form onSubmit={(event) => handleSubmit(event, inputRef.current.value)}>
+    <form onSubmit={(event) => handleSubmit(event, username)}>
       <div>
         <label htmlFor="username">Username:</label>
         <input
           id="username"
-          name="username"
           type="text"
-          ref={inputRef}
           value={username}
           onChange={(event) => handleChange(event.target.value)}
         />
