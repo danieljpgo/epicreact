@@ -86,7 +86,7 @@ function Game() {
     }
   }
 
-  function handleGoBack(index, historyArg) {
+  function handleGoBack(index) {
     setCurrentStep(index);
   }
 
