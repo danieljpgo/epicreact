@@ -7,7 +7,7 @@ import {ErrorBoundary} from 'react-error-boundary';
 
 
 function PokemonInfo({pokemonName}) {
-  const [state, setState] = React.useState({ status: 'idle', pokemon: null, error: null});
+  const [state, setState] = React.useState({ status: pokemonName ? 'pending' : 'idle', pokemon: null, error: null});
   const {status, error, pokemon} = state;
 
   React.useEffect(() => {
@@ -25,11 +25,6 @@ function PokemonInfo({pokemonName}) {
 
   if (status === 'rejected') {
     throw new Error(error.message);
-    // return (
-    //   <div role="alert">
-    //     There was an error: <pre style={{whiteSpace: 'normal'}}>{error.message}</pre>
-    //   </div>
-    // );
   }
   if (status === 'idle') {
     return "Submit a pokemon";
@@ -56,7 +51,7 @@ function App() {
           resetKeys={[pokemonName]} 
           onReset={() => setPokemonName('')}
           FallbackComponent={({resetErrorBoundary}) =>
-            <button onClick={() => resetErrorBoundary()}>
+            <button onClick={resetErrorBoundary}>
               try again
              </button>
           }>
