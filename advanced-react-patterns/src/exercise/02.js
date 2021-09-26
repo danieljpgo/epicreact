@@ -4,11 +4,17 @@
 import * as React from 'react'
 import {Switch} from '../switch'
 
-const ToggleOn = ({on, children}) => (on ? children : null)
+function ToggleOn({on, children}) {
+  return on ? children : null
+}
 
-const ToggleOff = ({on, children}) => (on ? null : children)
+function ToggleOff({on, children}) {
+  return on ? null : children
+}
 
-const ToggleButton = ({on, toggle}) => <Switch on={on} onClick={toggle} />
+function ToggleButton({on, toggle}) {
+  return <Switch on={on} onClick={toggle} />
+}
 
 const toggleTypes = [ToggleOn, ToggleOff, ToggleButton]
 
