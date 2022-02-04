@@ -6,12 +6,17 @@ import {Switch} from '../switch'
 
 const callAll = (...fns) => (...args) => fns.forEach(fn => fn?.(...args))
 
+const actions = {
+  toggle: 'toggle',
+  reset: 'reset',
+}
+
 function toggleReducer(state, {type, initialState}) {
   switch (type) {
-    case 'toggle': {
+    case actions.toggle: {
       return {on: !state.on}
     }
-    case 'reset': {
+    case actions.reset: {
       return initialState
     }
     default: {
@@ -25,11 +30,11 @@ function useToggle({initialOn = false, reducer = toggleReducer} = {}) {
   const [{on}, dispatch] = React.useReducer(reducer, initialState)
 
   function toggle() {
-    dispatch({type: 'toggle'})
+    dispatch({type: actions.toggle})
   }
 
   function reset() {
-    dispatch({type: 'reset', initialState})
+    dispatch({type: actions.reset, initialState})
   }
 
   function getTogglerProps({onClick, ...props} = {}) {
@@ -58,23 +63,12 @@ function useToggle({initialOn = false, reducer = toggleReducer} = {}) {
 
 function App() {
   const [timesClicked, setTimesClicked] = React.useState(0)
-  const clickedTooMuch = timesClicked >= 4
 
   function toggleStateReducer(state, action) {
-    switch (action.type) {
-      case 'toggle': {
-        if (clickedTooMuch) {
-          return {on: state.on}
-        }
-        return {on: !state.on}
-      }
-      case 'reset': {
-        return {on: false}
-      }
-      default: {
-        throw new Error(`Unsupported type: ${action.type}`)
-      }
+    if (action.type === actions.toggle && timesClicked >= 4) {
+      return {on: state.on}
     }
+    return toggleReducer(state, action)
   }
 
   const {on, getTogglerProps, getResetterProps} = useToggle({
@@ -85,12 +79,12 @@ function App() {
     <div>
       <Switch
         {...getTogglerProps({
-          disabled: clickedTooMuch,
+          disabled: timesClicked >= 4,
           on: on,
           onClick: () => setTimesClicked(count => count + 1),
         })}
       />
-      {clickedTooMuch ? (
+      {timesClicked >= 4 ? (
         <div data-testid="notice">
           Whoa, you clicked too much!
           <br />
